@@ -146,7 +146,6 @@ router.put('/update/:id', verifyToken, async (req, res) => {
                 let query = `update order_detail set status= '${body?.status}',
             docket_no='${body?.docket_no}',dispatch_date='${body?.dispatch_date}',dispatch_by='${body?.dispatch_by}'
             where order_id='${id}'`
-                console.log("🚀 ~ file: order.js:256 ~ router.put ~ query", query)
             
                 db.query(query, async (err, result) => {
 
@@ -178,9 +177,10 @@ router.get('/topTenProducts', verifyToken, async (req, res) => {
     try {
         const callcenter = req.callcenter
         var { start_date, end_date } = req.query;
-        let query = `SELECT product_name, count(*) AS count FROM order_detail`;
+      
+        let query = `SELECT product_name, count(*) AS count FROM order_detail  where order_id>0`;
         if (start_date && end_date) {
-            query += ` where DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' `;
+            query += ` AND DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' `;
         }
 
         query += ` And idtag LIKE '%${callcenter}%'`;
@@ -201,7 +201,7 @@ router.get('/topTenProducts', verifyToken, async (req, res) => {
             else {
 
                 return res
-                    .status(401)
+                    .status(200)
                     .send({
                         status: true,
                         msg: "data Found",
@@ -322,7 +322,6 @@ router.get('/today-product', verifyToken, async (req, res) => {
           where DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' and mode<>'Enquiry' and idtag LIKE '%${callcenter}%' group by idtag`;
         db.query(query, async (err, result) => {
             if (err) {
-                console.log("🚀 ~ file: order.js:488 ~ db.query ~ err", err)
                 return res
                     .status(500)
                     .send({
@@ -352,6 +351,26 @@ router.get('/today-product', verifyToken, async (req, res) => {
             status: false,
         });
     }
+
+})
+
+
+router.get('/all-product', verifyToken, async (req, res) => {
+    try {
+
+        let query = `Select product_name from order_detail group by product_name`;
+        db.query(query, async (err, result) => {
+
+            if (err)
+                return resMessage(res, false, "something went wrong", [])
+            else
+                return resMessage(res, true, "Data found", result)
+        })
+    }
+    catch (err) {
+        return resMessage(res, false, "something went wrong")
+    }
+
 
 })
 module.exports = router;

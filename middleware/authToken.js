@@ -23,47 +23,48 @@ exports.verifyToken = async (req, res, next) => {
                     }
                     else {
                         decoded = decodedData
-                    }
-                });
-
-            if (decoded.userId === undefined || decoded.userId === "") {
-                return res.status(401).send({
-                    msg: "Please login with registered username.",
-                    data: [],
-                    status: false,
-                });
-            } else {
-                let query = `select * from admin where username='${decoded.userId}' and role='${decoded.role}'`;
-                await db.query(query, async (err, result) => {
-                    // console.log("🚀 ~ file: authToken.js ~ line 24 ~ awaitdb.query ~ err", err,result)
-                    if (err) {
-                        return res
-                            .status(500)
-                            .send({
+                        if (decoded.userId === undefined || decoded.userId === "") {
+                            return res.status(401).send({
+                                msg: "Please login with registered username.",
+                                data: [],
                                 status: false,
-                                msg: "someting went wrong in token",
-                                code: "ERR"
                             });
-                    }
-                    else {
-                        existingUser = JSON.parse(JSON.stringify(result))
-                       
-                        if (existingUser && existingUser.length < 1) {
-                            return res
-                                .status(400)
-                                .send({
-                                    status: false,
-                                    msg: "Wrong details please check at once"
-                                });
-                        }
-                        else {
-                            req.callcenter=existingUser[0].callcenter
-                             next()
-                        }
-                    }
-                })
+                        } else {
+                            let query = `select * from admin where username='${decoded.userId}' and role='${decoded.role}'`;
+                             db.query(query, async (err, result) => {
+                                // console.log("🚀 ~ file: authToken.js ~ line 24 ~ awaitdb.query ~ err", err,result)
+                                if (err) {
+                                    return res
+                                        .status(500)
+                                        .send({
+                                            status: false,
+                                            msg: "someting went wrong in token",
+                                            code: "ERR"
+                                        });
+                                }
+                                else {
+                                    existingUser = JSON.parse(JSON.stringify(result))
 
-            }
+                                    if (existingUser && existingUser.length < 1) {
+                                        return res
+                                            .status(400)
+                                            .send({
+                                                status: false,
+                                                msg: "Wrong details please check at once"
+                                            });
+                                    }
+                                    else {
+                                        req.callcenter = existingUser[0].callcenter
+                                        next()
+                                    }
+                                }
+                            })
+
+                        }
+                    }
+                });
+
+
         } else {
             return res.status(401).send({
                 msg: "Please login with registered username.",
