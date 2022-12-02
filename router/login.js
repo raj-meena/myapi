@@ -37,7 +37,6 @@ router.post("/", async (req, res) => {
             }
             else {
                 existingUser = JSON.parse(JSON.stringify(result))
-
                 if (existingUser && existingUser.length < 1) {
                     return res
                         .status(201)
@@ -47,9 +46,6 @@ router.post("/", async (req, res) => {
                         });
                 }
                 else {
-
-
-
                     let token = jwt.sign(
                         { userId: existingUser[0].username, role: existingUser[0].role },
                         "MY-OTEX",
@@ -78,7 +74,13 @@ router.post("/", async (req, res) => {
 
     }
     catch (err) {
-        console.log(err)
+        return res
+            .status(500)
+            .send({
+                status: false,
+                message: "someting went wrong",
+                code: "ERR"
+            });
     }
 
 

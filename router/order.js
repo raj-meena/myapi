@@ -177,12 +177,10 @@ router.get('/topTenProducts', verifyToken, async (req, res) => {
     try {
         const callcenter = req.callcenter
         var { start_date, end_date } = req.query;
-      
         let query = `SELECT product_name, count(*) AS count FROM order_detail  where order_id>0`;
         if (start_date && end_date) {
             query += ` AND DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' `;
         }
-
         query += ` And idtag LIKE '%${callcenter}%'`;
         query += ` GROUP BY product_name  ORDER BY count DESC `;
         if (!start_date && !end_date) {
@@ -206,8 +204,6 @@ router.get('/topTenProducts', verifyToken, async (req, res) => {
                         status: true,
                         msg: "data Found",
                         data: result,
-
-
                     });
             }
         })
@@ -236,7 +232,10 @@ router.get('/view/:id', verifyToken, async (req, res) => {
             if (err)
                 return resMessage(res, false, "something went wrong", [])
             else
+            {
                 return resMessage(res, true, "Data found", result)
+               
+            }
         })
     }
     catch (err) {
