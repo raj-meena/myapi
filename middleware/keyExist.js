@@ -6,7 +6,13 @@ exports.keysExist = (rquiredkeys, req, res) => {
         let msgkey
         if (keysExistvalue.length > 0) {
             msgkey = ` Required keys! ${keysExistvalue} `
-            return { status:false ,msg: msgkey}
+            // return { status:false ,msg: msgkey}
+            return res.status(400)
+            .send({
+                status: false,
+                msg: msgkey,
+                code: "ERR"
+            });
         }
         else {
             return {status:true}

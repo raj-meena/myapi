@@ -1,12 +1,15 @@
 const express = require('express');
 const { createUnparsedSourceFile } = require('typescript');
-const db = require('../database/database');
-const { verifyToken } = require('../middleware/authToken');
-const { keysExist } = require('../middleware/keyExist');
-const { resMessage } = require('../middleware/showMessage');
+const db = require('../../database/database');
+const { verifyToken } = require('../../middleware/authToken');
+const { keysExist } = require('../../middleware/keyExist');
+const { resMessage } = require('../../middleware/showMessage');
 const router = express.Router();
 
-router.post('/', verifyToken, async (req, res) => {
+
+
+
+exports.getOrderWithPagination = async (req, res) => {
     try {
         const callcenter = req.callcenter
         let keys = Object.keys(req.body)
@@ -57,8 +60,8 @@ router.post('/', verifyToken, async (req, res) => {
         }
         if (keys.includes('searchValue')) {
             if (req.body.searchValue) {
-                query += ` AND (product_name LIKE '%${req.body.searchValue}%' or name LIKE '%${req.body.searchValue}%')`
-                countQuery += ` AND (product_name LIKE '%${req.body.searchValue}%' or name LIKE '%${req.body.searchValue}%')`
+                query += ` AND (product_name LIKE '%${req.body.searchValue}%' or idtag LIKE '%${req.body.searchValue}%' or name LIKE '%${req.body.searchValue}%' or order_id LIKE '%${req.body.searchValue}%' or email LIKE '%${req.body.searchValue}%' or phone LIKE '%${req.body.searchValue}%' or address LIKE '%${req.body.searchValue}%')`
+                countQuery += ` AND (product_name LIKE '%${req.body.searchValue}%' or idtag LIKE '%${req.body.searchValue}%' or name LIKE '%${req.body.searchValue}%' or order_id LIKE '%${req.body.searchValue}%' or email LIKE '%${req.body.searchValue}%' or phone LIKE '%${req.body.searchValue}%' or address LIKE '%${req.body.searchValue}%')`
             }
 
         }
@@ -129,9 +132,10 @@ router.post('/', verifyToken, async (req, res) => {
         });
     }
 
-})
+}
 
-router.put('/update/:id', verifyToken, async (req, res) => {
+
+exports.updateOrderById = async (req, res) => {
     try {
         let requiredKeys = ['status', 'dispatch_date', 'docket_no', 'dispatch_by']
         let keysExistValue = keysExist(requiredKeys, req, res)
@@ -143,10 +147,10 @@ router.put('/update/:id', verifyToken, async (req, res) => {
             }
             let body = { ...req.body }
             if (body.status && body.dispatch_by && body.dispatch_date && body.docket_no) {
-                let query = `update order_detail set status= '${body?.status}',
+                let query = `update order_detail set status= '${body.status}',
             docket_no='${body?.docket_no}',dispatch_date='${body?.dispatch_date}',dispatch_by='${body?.dispatch_by}'
             where order_id='${id}'`
-            
+
                 db.query(query, async (err, result) => {
 
                     if (err)
@@ -171,9 +175,9 @@ router.put('/update/:id', verifyToken, async (req, res) => {
     }
 
 
-})
+}
 
-router.get('/topTenProducts', verifyToken, async (req, res) => {
+exports.getTopTenProducts = async (req, res) => {
     try {
         const callcenter = req.callcenter
         var { start_date, end_date } = req.query;
@@ -215,10 +219,9 @@ router.get('/topTenProducts', verifyToken, async (req, res) => {
         });
     }
 
-})
+}
 
-
-router.get('/view/:id', verifyToken, async (req, res) => {
+exports.getOrderById = async (req, res) => {
     try {
 
         var { id } = req.params;
@@ -231,10 +234,9 @@ router.get('/view/:id', verifyToken, async (req, res) => {
 
             if (err)
                 return resMessage(res, false, "something went wrong", [])
-            else
-            {
+            else {
                 return resMessage(res, true, "Data found", result)
-               
+
             }
         })
     }
@@ -243,8 +245,9 @@ router.get('/view/:id', verifyToken, async (req, res) => {
     }
 
 
-})
-router.put('/order-update/:id', verifyToken, async (req, res) => {
+}
+
+exports.updateOrderByAgent = async (req, res) => {
 
     try {
         var { id } = req.params;
@@ -293,9 +296,9 @@ router.put('/order-update/:id', verifyToken, async (req, res) => {
     }
 
 
-})
+}
 
-router.get('/today-product', verifyToken, async (req, res) => {
+exports.getTodayProduct = async (req, res) => {
 
     try {
         const callcenter = req.callcenter;
@@ -351,10 +354,9 @@ router.get('/today-product', verifyToken, async (req, res) => {
         });
     }
 
-})
+}
 
-
-router.get('/all-product', verifyToken, async (req, res) => {
+exports.getAllproduct = async (req, res) => {
     try {
 
         let query = `Select product_name from order_detail group by product_name`;
@@ -371,5 +373,4 @@ router.get('/all-product', verifyToken, async (req, res) => {
     }
 
 
-})
-module.exports = router;
+}
