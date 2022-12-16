@@ -32,7 +32,7 @@ exports.verifyToken = async (req, res, next) => {
                         } else {
                             let query = `select * from admin where username='${decoded.userId}' and role='${decoded.role}'`;
                              db.query(query, async (err, result) => {
-                                // console.log("🚀 ~ file: authToken.js ~ line 24 ~ awaitdb.query ~ err", err,result)
+                               
                                 if (err) {
                                     return res
                                         .status(500)

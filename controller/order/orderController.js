@@ -148,7 +148,7 @@ exports.updateOrderById = async (req, res) => {
             let body = { ...req.body }
             if (body.status && body.dispatch_by && body.dispatch_date && body.docket_no) {
                 let query = `update order_detail set status= '${body.status}',
-            docket_no='${body?.docket_no}',dispatch_date='${body?.dispatch_date}',dispatch_by='${body?.dispatch_by}'
+            docket_no='${body.docket_no}',dispatch_date='${body.dispatch_date}',dispatch_by='${body.dispatch_by}'
             where order_id='${id}'`
 
                 db.query(query, async (err, result) => {

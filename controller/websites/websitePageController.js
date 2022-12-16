@@ -14,7 +14,7 @@ exports.create_website = async (req, res) => {
         let page_url = req.body?.page_url?.trim()
         let page_name = req.body?.page_name?.trim()
         let website_id = req.body?.website_id?.trim()
-        let requiredKeys = ['page_url', 'page_name', 'website_id']
+        let requiredKeys = ['page_url', 'page_name', 'website_id','header_space','footer_space']
         let keysExistValue = keysExist(requiredKeys, req, res)
         if (keysExistValue.status) {
             let validation = []
@@ -39,11 +39,34 @@ exports.create_website = async (req, res) => {
             data_insert = [{
                 "page_url": page_url,
                 "page_name": page_name,
-                "website_id": website_id
+                "website_id": website_id,
+                "header_space": req.body.header_space,
+                "footer_space": req.body.footer_space,
             }]
 
             //call create model and  here given argumnets(response,table name,data to insert) 
-            miscModel.create(res, 'website_page_tbl', data_insert)
+           
+            db.query(`select url from website_page_tbl where page_url='${page_url}'`, function (err, result) {
+
+                if (err) {
+
+                }
+                else {
+                    if (!result.length) {
+                   
+                        // call create model and  here given argumnets(response,table name,data to insert) 
+                        miscModel.create(res, 'website_page_tbl', data_insert)
+                    }
+                    else {
+                        return res.status(201)
+                            .send({
+                                status: false,
+                                msg: `URL Already exist`,
+                                code: "ERR"
+                            });
+                    }
+                }
+            })
         }
 
     } catch (err) {

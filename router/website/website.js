@@ -19,7 +19,7 @@ router.get('/view/:id',verifyToken,website_controller.get_data_with_id)
 router.delete('/delete/:id',verifyToken,website_controller.delete_data_with_id)
 
 //update data by id
-router.put('/update/:id',verifyToken,website_controller.update_data_with_id)
+router.put('/update/:id',verifyToken,website_controller.update_website_with_id)
 
 
 module.exports=router

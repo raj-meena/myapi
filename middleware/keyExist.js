@@ -18,7 +18,7 @@ exports.keysExist = (rquiredkeys, req, res) => {
             return {status:true}
         }
     } catch (err) {
-        console.log("🚀 ~ file: keyExist.js ~ line 20 ~ err", err)
+        
         return res.status(400)
             .send({
                 status: false,

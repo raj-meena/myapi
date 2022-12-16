@@ -1,5 +1,6 @@
 const db = require('../database/database');
-
+var convert = require('xml-js');
+// var xml = require('fs').readFileSync('./demo.xml', { encoding: 'utf8', flag: 'r' });
 exports.create = async (res, table_name, data) => {
     try {
         data.map((ele) => {
@@ -7,14 +8,26 @@ exports.create = async (res, table_name, data) => {
             let values = Object.values(ele)
             var sql = `INSERT INTO ${table_name} (${key}) VALUES (?)`;
             db.query(sql, [values], function (err, result) {
-                if (err) throw err;
-                return res.status(201)
-                    .send({
-                        status: true,
-                        msg: `Added succesfully`,
-                        code: "OK",
-                        inserted: result.affectedRows
-                    });
+
+                if (err) {
+
+                    return res.status(500)
+                        .send({
+                            status: false,
+                            msg: err.sqlMessage,
+                            code: "ERR",
+                            // inserted: result.affectedRows
+                        });
+                } else {
+                    return res.status(201)
+                        .send({
+                            status: true,
+                            msg: `Added succesfully`,
+                            code: "OK",
+                            inserted: result.affectedRows
+                        });
+                }
+
             });
 
 
@@ -30,12 +43,13 @@ exports.create = async (res, table_name, data) => {
     }
 
 }
+
 exports.get_data_with_pagination = async (res, table_name, data) => {
     try {
         let page = parseInt(data.page) //page
         let limit = parseInt(data.limit) //
         let offset = (limit * (page - 1))
-        let orderBy=data.orderBy
+        let orderBy = data.orderBy
         let totapages = 0
         let totalItem = 0
         let sql = ''
@@ -62,20 +76,20 @@ exports.get_data_with_pagination = async (res, table_name, data) => {
         count = count + sql
         sql += `  limit ${limit} offset ${offset}`
 
-       
+
         query = query + sql
-        db.query(count, function (err, result) {            
+        db.query(count, function (err, result) {
             if (err) throw err;
             totalItem = result[0].itemsCount
             db.query(query, function (err, result) {
                 if (err) throw err;
                 if (totalItem % limit == 0) {
                     totapages = parseInt(totalItem / limit)
-    
+
                 }
                 else {
                     totapages = parseInt(totalItem / limit) + 1
-    
+
                 }
                 return res.status(200)
                     .send({
