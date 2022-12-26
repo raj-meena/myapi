@@ -9,6 +9,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
 
     try {
+        // console.log("here")
         let { username, password } = req.body;
         let keys = Object.keys(req.body)
         let keysExist = ['username', 'password'].filter((ele) => !keys.includes(ele))
@@ -39,7 +40,7 @@ router.post("/", async (req, res) => {
                 existingUser = JSON.parse(JSON.stringify(result))
                 if (existingUser && existingUser.length < 1) {
                     return res
-                        .status(201)
+                        .status(500)
                         .send({
                             status: false,
                             message: "Wrong details please check at once"

@@ -11,9 +11,9 @@ const router = express.Router();
 // we are inserted data in table
 exports.create_website = async (req, res) => {
     try {
-        let page_url = req.body?.page_url?.trim()
-        let page_name = req.body?.page_name?.trim()
-        let website_id = req.body?.website_id?.trim()
+        let page_url = req.body.page_url.trim()
+        let page_name = req.body.page_name.trim()
+        let website_id = req.body.website_id.trim()
         let requiredKeys = ['page_url', 'page_name', 'website_id','header_space','footer_space']
         let keysExistValue = keysExist(requiredKeys, req, res)
         if (keysExistValue.status) {
@@ -164,23 +164,23 @@ exports.get_data_with_id = async (req, res) => {
 
 // }
 
-// // delete data in table
-// exports.delete_data_with_id = async (req, res) => {
-//     try {
-//         let { id } = req.params
-//         dataToDelete = {
-//             "website_id": id
-//         }
-//         miscModel.delete_data_with_id(res, 'websites', dataToDelete)
-//     } catch (err) {
-//         return res.status(500)
-//             .send({
-//                 status: false,
-//                 msg: `something went wrong ${err}`,
-//                 code: "ERR"
-//             });
-//     }
-// }
+// delete data in table
+exports.delete_data_with_id = async (req, res) => {
+    try {
+        let { id } = req.params
+        dataToDelete = {
+            "website_page_id": id
+        }
+        miscModel.delete_data_with_id(res, 'website_page_tbl', dataToDelete)
+    } catch (err) {
+        return res.status(500)
+            .send({
+                status: false,
+                msg: `something went wrong ${err}`,
+                code: "ERR"
+            });
+    }
+}
 
 // we are inserted data in table
 exports.update_data_with_id = async (req, res) => {
