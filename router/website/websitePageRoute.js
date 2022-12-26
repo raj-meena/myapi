@@ -15,8 +15,8 @@ router.post('/add',verifyToken,website_page_controller.create_website)
 //get data by id
 router.get('/view/:id',verifyToken,website_page_controller.get_data_with_id)
 
-// //delete data by id
-// router.delete('/delete/:id',verifyToken,website_page_controller.delete_data_with_id)
+//delete data by id
+router.delete('/delete/:id',verifyToken,website_page_controller.delete_data_with_id)
 
 //update data by id
 router.put('/update/:id',verifyToken,website_page_controller.update_data_with_id)

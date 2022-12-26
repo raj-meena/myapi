@@ -198,15 +198,33 @@ exports.delete_data_with_id = async (res, table_name, data) => {
         let key = Object.keys(data)
         var query = `SELECT *  from  ${table_name} WHERE inserted_at >0 AND ${key}=${value} `;
         db.query(query, function (err, result) {
-            if (err) throw err;
+            if (err){
+                return res.status(500)
+                .send({
+                    status: false,
+                    msg: `something went wromg`,
+                    code: "ERR",
+                    // data: result,
+
+                });
+            }
             if (result.length) {
                 var query = `DELETE  from  ${table_name} WHERE inserted_at >0 AND ${key}=${value} `;
                 db.query(query, function (err, result) {
-                    if (err) throw err;
+                    if (err){
+                        return res.status(500)
+                        .send({
+                            status: false,
+                            msg: `something went wromg`,
+                            code: "ERR",
+                            // data: result,
+    
+                        });
+                    };
                     return res.status(200)
                         .send({
                             status: true,
-                            msg: `Data Delete from databse`,
+                            msg: `Data Delete from database`,
                             code: "OK",
                             deleted: result.affectedRows,
 
