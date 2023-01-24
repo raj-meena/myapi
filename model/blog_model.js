@@ -10,7 +10,7 @@ exports.get_blog_data_with_pagination = async (res, table_name, data) => {
         let totapages = 0
         let totalItem = 0
         let sql = ''
-        
+
         var query = `SELECT * from  websites
         RIGHT JOIN website_blogs_tbl as web_page  on web_page.website_id=websites.website_id
          WHERE websites.website_id='${id}' `;

@@ -12,22 +12,22 @@ const router = express.Router();
 
 exports.create_website = async (req, res) => {
     try {
-        // let page_url = req.body?.page_url?.trim()
-        // let page_name = req.body?.page_name?.trim()
-        // let website_id = req.body?.website_id?.trim()
-        // let website_meta_id=req.body?.website_meta_id.trim()
-        let website_page_id = req.body?.website_page_id?.trim()
-        let website_id = req.body?.website_id?.trim()
-        let meta_description = req.body?.meta_description?.trim()
-        let meta_keyword = req.body?.meta_keyword?.trim()
-        let meta_og_title = req.body?.meta_og_title?.trim()
-        let meta_og_url = req.body?.meta_og_url?.trim()
-        let meta_og_image = req.body?.meta_og_image?.trim()
-        let meta_og_description = req.body?.meta_og_description?.trim()
-        let meta_og_type = req.body?.meta_og_type?.trim()
-        let meta_twitter_title = req.body?.meta_twitter_title?.trim()
-        let meta_twitter_card = req.body?.meta_twitter_card?.trim()
-        let meta_twitter_image = req.body?.meta_twitter_image?.trim()
+        // let page_url = req.body.page_url
+        // let page_name = req.body.page_name
+        // let website_id = req.body.website_id
+        // let website_meta_id=req.body.website_meta_id.
+        let website_page_id = req.body.website_page_id
+        let website_id = req.body.website_id
+        let meta_description = req.body.meta_description
+        let meta_keyword = req.body.meta_keyword
+        let meta_og_title = req.body.meta_og_title
+        let meta_og_url = req.body.meta_og_url
+        let meta_og_image = req.body.meta_og_image
+        let meta_og_description = req.body.meta_og_description
+        let meta_og_type = req.body.meta_og_type
+        let meta_twitter_title = req.body.meta_twitter_title
+        let meta_twitter_card = req.body.meta_twitter_card
+        let meta_twitter_image = req.body.meta_twitter_image
 
 
 
@@ -253,9 +253,9 @@ exports.create_website = async (req, res) => {
 //                         code: "ERR"
 //                     });
 //         }
-//         let page_url = req.body?.page_url?.trim()
-//         let page_name = req.body?.page_name?.trim()
-//         let website_id = req.body?.website_id?.trim()
+//         let page_url = req.body?.page_url?.
+//         let page_name = req.body?.page_name?.
+//         let website_id = req.body?.website_id?.
 //         let requiredKeys = ['page_url', 'page_name','website_id']
 //         let keysExistValue = keysExist(requiredKeys, req, res)
 //         if (keysExistValue.status) {
@@ -287,7 +287,7 @@ exports.create_website = async (req, res) => {
 //                 "website_page_id":id
 //             }
 
-//             //call create model and  here given argumnets(response,table name,data to insert) 
+//             //call create model and  here given argumnets(response,table name,data to insert)
 //             miscModel.update_date_with_id(res, 'website_page_tbl', data_for_update,data_to_update)
 //         }
 

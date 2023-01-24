@@ -10,7 +10,6 @@ const miscModel = require('../../model/misc_model')
 router.post("/login", async (req, res) => {
 
     try {
-        // console.log("here")
         let { username, password } = req.body;
         let keys = Object.keys(req.body)
         let keysExist = ['username', 'password'].filter((ele) => !keys.includes(ele))

@@ -11,9 +11,9 @@ const router = express.Router();
 // we are inserted data in table
 exports.create_website = async (req, res) => {
     try {
-        let page_url = req.body.page_url.trim()
-        let page_name = req.body.page_name.trim()
-        let website_id = req.body.website_id.trim()
+        let page_url = req.body.page_url
+        let page_name = req.body.page_name
+        let website_id = req.body.website_id
         let requiredKeys = ['page_url', 'page_name', 'website_id','header_space','footer_space']
         let keysExistValue = keysExist(requiredKeys, req, res)
         if (keysExistValue.status) {
@@ -195,9 +195,9 @@ exports.update_data_with_id = async (req, res) => {
                         code: "ERR"
                     });
         }
-        let page_url = req.body?.page_url?.trim()
-        let page_name = req.body?.page_name?.trim()
-        let website_id = req.body?.website_id?.trim()
+        let page_url = req.body?.page_url
+        let page_name = req.body?.page_name
+        let website_id = req.body?.website_id
         let requiredKeys = ['page_url', 'page_name','website_id']
         let keysExistValue = keysExist(requiredKeys, req, res)
         if (keysExistValue.status) {
