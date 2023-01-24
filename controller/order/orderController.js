@@ -320,10 +320,11 @@ exports.getTodayProduct = async (req, res) => {
           COUNT(CASE WHEN mode="COD" THEN 1 END) AS CodCount,
           COUNT(CASE WHEN mode="Overseas" THEN 1 END) AS OverseasCount, 
           COUNT(CASE WHEN mode="Enquiry" THEN 1 END) AS EnquiryCount,
-          COUNT(CASE WHEN mode="Online" THEN 1 END) AS OnlineCount FROM tm.order_detail 
+          COUNT(CASE WHEN mode="Online" THEN 1 END) AS OnlineCount FROM order_detail 
           where DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' and mode<>'Enquiry' and idtag LIKE '%${callcenter}%' group by idtag`;
         db.query(query, async (err, result) => {
             if (err) {
+                console.log(err)
                 return res
                     .status(500)
                     .send({
