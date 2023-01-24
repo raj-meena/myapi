@@ -4,10 +4,19 @@ const { keysExist } = require("../../middleware/keyExist")
 const miscModel = require('../../model/misc_model')
 const blogModel=require('../../model/blog_model')
 exports.create_blog = async (req, res) => {
-
+    console.log("sdfsdf")
     try {
         let website_id = req.body.website_id
-        let blog_image =  '/uploads/'+req.file.filename
+        let blog_image=null
+        if(req.file==undefined)
+        {
+         blog_image=null
+        }
+        else
+        {
+         blog_image = '/uploads/'+req?.file?.filename
+           
+        }
         let blog_name = req.body.blog_name
         let blog_title = req.body.blog_title
         let blog_description = req.body.blog_description
@@ -16,9 +25,7 @@ exports.create_blog = async (req, res) => {
         let keysExistValue = keysExist(requiredKeys, req, res)
         if (keysExistValue.status) {
             let validation = []
-            if (!blog_image) {
-                validation.push("blog_image")
-            }
+           
             if (!blog_name) {
                 validation
                 validation.push("blog_name")
@@ -45,7 +52,7 @@ exports.create_blog = async (req, res) => {
             }
             data_insert = [{
                 'website_id':website_id,
-                "blog_image": blog_image,
+                "blog_image": blog_image?blog_image:"",
                 "blog_name": blog_name,
                 "blog_title": blog_title,
                 "blog_description":blog_description,
@@ -141,19 +148,25 @@ exports.update_data_with_id = async (req, res) => {
                     });
         }
         let website_id = req.body.website_id
-        let blog_image = req.body.blog_image
+        let blog_image = null
+        if(req.file==undefined)
+        {
+         blog_image=null
+        }
+        else
+        {
+         blog_image = '/uploads/'+req?.file?.filename
+           
+        }
         let blog_name = req.body.blog_name
         let blog_title = req.body.blog_title
         let blog_description = req.body.blog_description
         let blog_subtitle = req.body.blog_subtitle
         let requiredKeys = ['website_id','blog_image', 'blog_name', 'blog_title','blog_description','blog_subtitle']
         let keysExistValue = keysExist(requiredKeys, req, res)
-        console.log(keysExistValue,"keysExistValue")
         if (keysExistValue.status) {
             let validation = []
-            if (!blog_image) {
-                validation.push("blog_image")
-            }
+           
             if (!blog_name) {
                 validation
                 validation.push("blog_name")
@@ -181,7 +194,7 @@ exports.update_data_with_id = async (req, res) => {
             data_for_update = {
                 'website_id':website_id,
                 "blog_image": blog_image,
-                "blog_name": blog_name,
+                "blog_name": blog_name? blog_name : "",
                 "blog_title": blog_title,
                 "blog_description":blog_description,
                 "blog_subtitle": blog_subtitle,

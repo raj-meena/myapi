@@ -9,7 +9,7 @@ exports.verifyToken = async (req, res, next) => {
             req.headers["x-access-token"] !== undefined &&
             req.headers["x-access-token"] !== ""
         ) {
-            const token = req.headers["x-access-token"].trim();
+            const token = req.headers["x-access-token"]
             let decoded
             jwt.verify(token, "MY-OTEX",
                 function (err, decodedData) {
@@ -47,7 +47,7 @@ exports.verifyToken = async (req, res, next) => {
 
                                     if (existingUser && existingUser.length < 1) {
                                         return res
-                                            .status(400)
+                                            .status(429)
                                             .send({
                                                 status: false,
                                                 msg: "Wrong details please check at once"
@@ -55,6 +55,7 @@ exports.verifyToken = async (req, res, next) => {
                                     }
                                     else {
                                         req.callcenter = existingUser[0].callcenter
+                                        console.log("hereerer")
                                         next()
                                     }
                                 }

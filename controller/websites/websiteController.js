@@ -13,9 +13,9 @@ const db = require('../../database/database');
 // we are inserted data in table
 exports.create_website = async (req, res) => {
     try {
-        let url = req.body.url.trim()
-        let product_name = req.body.product_name.trim()
-        let product_tag = req.body.product_tag.trim()
+        let url = req.body.url
+        let product_name = req.body.product_name
+        let product_tag = req.body.product_tag
         let requiredKeys = ['url', 'product_name', 'product_tag', "sitemap_url",
             "header_space",
             "footer_space",
@@ -44,8 +44,41 @@ exports.create_website = async (req, res) => {
                     });
             }
             try{
+                console.log("hereerer 23344")
 
                 var xmlData = convert.xml2json(req.body.sitemap_url, { compact: true, spaces: 4 });
+                data_insert = [{
+                    "url": url,
+                    "product_name": product_name,
+                    "product_tag": product_tag,
+                    "sitemap_url": req.body.sitemap_url?req.body.sitemap_url :req.body.sitemap_url,
+                    "header_space": req.body.header_space,
+                    "footer_space": req.body.footer_space,
+                    "gatag_ip": req.body.gatag_ip,
+                    "search_console_id": req.body.search_console_id,
+                    "conversin_tag": req.body.conversin_tag,
+                }]
+                db.query(`select url from websites where url='${url}'`, function (err, result) {
+    
+                    if (err) {
+    
+                    }
+                    else {
+                        if (!result.length) {
+                       
+                            // call create model and  here given argumnets(response,table name,data to insert) 
+                            websiteModel.create_website(res, 'websites', data_insert)
+                        }
+                        else {
+                            return res.status(201)
+                                .send({
+                                    status: false,
+                                    msg: `URL Already exist`,
+                                    code: "ERR"
+                                });
+                        }
+                    }
+                })
             }
             catch(err)
             {
@@ -58,38 +91,7 @@ exports.create_website = async (req, res) => {
             }
           
 
-            data_insert = [{
-                "url": url,
-                "product_name": product_name,
-                "product_tag": product_tag,
-                "sitemap_url": req.body.sitemap_url?req.body.sitemap_url :req.body.sitemap_url,
-                "header_space": req.body.header_space,
-                "footer_space": req.body.footer_space,
-                "gatag_ip": req.body.gatag_ip,
-                "search_console_id": req.body.search_console_id,
-                "conversin_tag": req.body.conversin_tag,
-            }]
-            db.query(`select url from websites where url='${url}'`, function (err, result) {
-
-                if (err) {
-
-                }
-                else {
-                    if (!result.length) {
-                   
-                        // call create model and  here given argumnets(response,table name,data to insert) 
-                        websiteModel.create_website(res, 'websites', data_insert)
-                    }
-                    else {
-                        return res.status(201)
-                            .send({
-                                status: false,
-                                msg: `URL Already exist`,
-                                code: "ERR"
-                            });
-                    }
-                }
-            })
+      
 
 
 
@@ -219,9 +221,9 @@ exports.delete_data_with_id = async (req, res) => {
 //                     code: "ERR"
 //                 });
 //         }
-//         let url = req.body.url.trim()
-//         let product_name = req.body.product_name.trim()
-//         let product_tag = req.body.product_tag.trim()
+//         let url = req.body.url
+//         let product_name = req.body.product_name
+//         let product_tag = req.body.product_tag
 //         let requiredKeys = ['url', 'product_name', 'product_tag']
 //         let keysExistValue = keysExist(requiredKeys, req, res)
 //         if (keysExistValue.status) {
@@ -279,9 +281,9 @@ exports.update_website_with_id = async (req, res) => {
                     code: "ERR"
                 });
         }
-        let url = req.body.url.trim()
-        let product_name = req.body.product_name.trim()
-        let product_tag = req.body.product_tag.trim()
+        let url = req.body.url
+        let product_name = req.body.product_name
+        let product_tag = req.body.product_tag
         let requiredKeys = ['url', 'product_name', 'product_tag', "sitemap_url",
             "header_space",
             "footer_space",
