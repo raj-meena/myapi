@@ -10,6 +10,7 @@ const websitesPageRoutes=require('./router/website/websitePageRoute')
 const websiteMetaRoutes=require('./router/website/webMetaRoute')
 const blogRoutes=require('./router/blog/blogRoute')
 const fileRoutes =require('./router/file/fileRoute')
+const userRoutes=require('./router/user/userRoute')
 const cors= require('cors')
 // const db= require('./database/database')
 const app=express();
@@ -28,6 +29,7 @@ app.use('/website/page',websitesPageRoutes)
 app.use('/website/page/meta',websiteMetaRoutes)
 app.use('/website/blog',blogRoutes)
 // app.use('/file',fileRoutes)
+app.use('/admin',userRoutes)
 try{
     app.listen(PORT,()=>{
         console.log(`server started on port ${PORT}`)

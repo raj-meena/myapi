@@ -4,7 +4,6 @@ const { keysExist } = require("../../middleware/keyExist")
 const miscModel = require('../../model/misc_model')
 const blogModel=require('../../model/blog_model')
 exports.create_blog = async (req, res) => {
-    console.log("sdfsdf")
     try {
         let website_id = req.body.website_id
         let blog_image=null

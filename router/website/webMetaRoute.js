@@ -2,6 +2,7 @@ const express =require('express')
 const { verifyToken } = require('../../middleware/authToken')
 const router=express.Router()
 const webMetaInfoController = require("../../controller/websites/webMetaInfoController");
+const { restrictIP } = require('../../middleware/restrictIp');
 
 //get data with pagination and filter
 // router.post('/',verifyToken,website_page_controller.get_data_with_pagination)
@@ -10,7 +11,7 @@ const webMetaInfoController = require("../../controller/websites/webMetaInfoCont
 // router.post('/all',verifyToken,website_page_controller.get_data_without_pagination)
 
 // create data
-router.post('/add',verifyToken,webMetaInfoController.create_website)
+router.post('/add',restrictIP,verifyToken,webMetaInfoController.create_website)
 
 //get data by id
 // router.get('/view/:id',verifyToken,website_page_controller.get_data_with_id)
