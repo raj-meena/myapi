@@ -6,6 +6,8 @@ const { keysExist } = require('../../middleware/keyExist');
 const { resMessage } = require('../../middleware/showMessage');
 const { resourceLimits } = require('worker_threads');
 const router = express.Router();
+const db = require('../../database/database');
+
 
 
 // we are inserted data in table
@@ -28,7 +30,7 @@ exports.create_website = async (req, res) => {
         let meta_twitter_title = req.body.meta_twitter_title
         let meta_twitter_card = req.body.meta_twitter_card
         let meta_twitter_image = req.body.meta_twitter_image
-
+        let canonical_url=req.body.canonical_url
 
 
 
@@ -46,6 +48,7 @@ exports.create_website = async (req, res) => {
             'meta_twitter_title',
             'meta_twitter_card',
             'meta_twitter_image',
+            'canonical_url'
         ]
         let keysExistValue = keysExist(requiredKeys, req, res)
         if (keysExistValue.status) {
@@ -118,7 +121,8 @@ exports.create_website = async (req, res) => {
                 'meta_og_type': meta_og_type,
                 'meta_twitter_title': meta_twitter_title,
                 'meta_twitter_card': meta_twitter_card,
-                'meta_twitter_image': meta_twitter_image
+                'meta_twitter_image': meta_twitter_image,
+                'canonical_url':canonical_url
 
 
             }]

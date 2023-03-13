@@ -55,7 +55,6 @@ exports.verifyToken = async (req, res, next) => {
                                     }
                                     else {
                                         req.callcenter = existingUser[0].callcenter
-                                        console.log("hereerer")
                                         next()
                                     }
                                 }
@@ -75,7 +74,6 @@ exports.verifyToken = async (req, res, next) => {
         }
 
     } catch (error) {
-        console.log(error)
         return res.status(401).send({
             msg: "Authentication failed.",
             data: [],

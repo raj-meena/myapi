@@ -33,7 +33,7 @@ exports.getOrderWithPagination = async (req, res) => {
         }
 
         let query = "select * from order_detail where order_id>0 ";
-        let countQuery = "select count(*) as count from order_detail where order_id>0 ";
+        let countQuery = "select COUNT(DISTINCT phone, email) as count from order_detail where order_id>0 ";
 
         if (keys.includes('filterBy')) {
             if (req.body.filterBy[0].fieldName == 'mode') {
@@ -65,7 +65,7 @@ exports.getOrderWithPagination = async (req, res) => {
             }
 
         }
-        query += ` And idtag LIKE '%${callcenter}%'`;
+        query += ` And idtag LIKE '%${callcenter}%' group by phone,email`;
         countQuery += ` And idtag LIKE '%${callcenter}%'`;
         query += ` order by order_id DESC`;
         countQuery += ` order by order_id DESC`;
@@ -88,7 +88,6 @@ exports.getOrderWithPagination = async (req, res) => {
                 totalItem = result[0]['count']
             }
         })
-
         db.query(query + queryPage, async (err, result) => {
             if (err) {
                 return res
@@ -301,7 +300,7 @@ exports.updateOrderByAgent = async (req, res) => {
 exports.getTodayProduct = async (req, res) => {
 
     try {
-        const callcenter = req.callcenter;
+        const callcenter = '';
         const { start_date, end_date } = req.query;
         if (!start_date && !end_date) {
             return res
@@ -324,7 +323,6 @@ exports.getTodayProduct = async (req, res) => {
           where DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' and mode<>'Enquiry' and idtag LIKE '%${callcenter}%' group by idtag`;
         db.query(query, async (err, result) => {
             if (err) {
-                console.log(err)
                 return res
                     .status(500)
                     .send({

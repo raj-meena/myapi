@@ -90,7 +90,6 @@ router.post("/login", async (req, res) => {
 // router.post("/register", async (req, res) => {
 
 //     try {
-//         // console.log("here")
 //         let { username, password,email,phone } = req.body;
 //         let keys = Object.keys(req.body)
 //         let keysExist = ['username', 'password'].filter((ele) => !keys.includes(ele))

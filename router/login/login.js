@@ -9,7 +9,6 @@ const router = express.Router();
 router.post("/", async (req, res) => {
 
     try {
-        // console.log("here")
         let { username, password } = req.body;
         let keys = Object.keys(req.body)
         let keysExist = ['username', 'password'].filter((ele) => !keys.includes(ele))
