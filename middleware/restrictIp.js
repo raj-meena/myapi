@@ -36,6 +36,8 @@ exports.restrictIP = async (req, res, next) => {
     req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.ip; // get the client IP address
 
   console.log(clientIP, "clientIP");
+  next()
+  return
   if (allowedIPs.includes(clientIP)) {
     // if (allowedIPs == clientIP) {
     next(); // IP is allowed, proceed to the next middleware
