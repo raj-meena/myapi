@@ -298,7 +298,6 @@ exports.getTodayProduct = async (req, res) => {
           where DATE(date)  >= '${start_date}' AND DATE(date)  <=  '${end_date}' and idtag LIKE '%${callcenter}%'
           group by idtag`;
 
-    console.log(query)
     db.query(query, async (err, result) => {
       if (err) {
         console.log(err)
