@@ -299,6 +299,7 @@ exports.getTodayProduct = async (req, res) => {
           group by idtag`;
     db.query(query, async (err, result) => {
       if (err) {
+        console.log(err)
         return res.status(500).send({
           status: false,
           msg: "someting went wrong in query",
