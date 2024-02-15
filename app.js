@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const authRoutes = require("./router/login/login");
 //codebin
 const authCodebinRoutes = require("./router/codebin/login");
